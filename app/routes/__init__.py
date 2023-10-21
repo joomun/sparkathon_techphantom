@@ -10,3 +10,5 @@ def index():
 @main.route('/map')
 def new_route_function():
     return render_template('map.html')
+
+

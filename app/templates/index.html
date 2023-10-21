@@ -25,20 +25,28 @@
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* Align items to the start */
         }
 
         /* Sidebar logo */
         .sidebar-logo {
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px 0;
         }
 
         .sidebar-logo img {
             width: 100px; /* Adjust as needed */
             height: auto;
+        }
+
+        /* Sidebar menu container */
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
         }
 
         /* Sidebar menu items */
@@ -69,11 +77,13 @@
 
     <div class="sidebar">
         <div class="sidebar-logo">
-            <img src="path_to_your_image.jpg" alt="Your Logo">
+         <img src="{{ url_for('static', filename='image/SD_logo_baseline_RGB.png') }}" alt="Your Logo">
         </div>
-        <a href="#/">Home</a>
-        <a href="#services">Transport Option</a>
-        <a href="/map">Location</a>
+        <div class="menu-items">
+            <a href="/">Home</a>
+            <a href="/transport">Transport Option</a>
+            <a href="/map">Location</a>
+        </div>
     </div>
 
     <div class="main-content">
