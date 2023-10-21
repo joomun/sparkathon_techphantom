@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Maps Integration in Flask</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfv4m-6rx_en8OuGmOKBkUzV6TnyrGWBQ&libraries=places&callback=initMap" async defer></script>
+
+    <script>
+      var map, directionsService, directionsRenderer; // Declare variables in the global scope
+      
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -20.3484, lng: 57.5522}, // coordinates for Mauritius
+          zoom: 10 
+        });
+      
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+
+        // Set up autocomplete for both input fields
+        var startInput = document.getElementById('start');
+        var endInput = document.getElementById('end');
+        
+        var startAutocomplete = new google.maps.places.Autocomplete(startInput);
+        var endAutocomplete = new google.maps.places.Autocomplete(endInput);
+        
+        // Set the data fields to return when the user selects a place.
+        startAutocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
+        endAutocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
+      }
+      
+
+      function calculateRoute() {
+        var start = document.getElementById('start').value;
+        var end = document.getElementById('end').value;
+
+        var request = {
+          origin: start,
+          destination: end,
+          travelMode: 'DRIVING'
+        };
+
+        directionsService.route(request, function(result, status) {
+          if (status == 'OK') {
+            directionsRenderer.setDirections(result);
+          }
+        });
+      }
+    </script>
+    
+    <style>
+      #map {
+        height: 50%;
+        width: 100%;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .input-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+      }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="input-container">
+        <input id="start" type="text" placeholder="Enter Point A">
+        <input id="end" type="text" placeholder="Enter Point B">
+        <button onclick="calculateRoute()">Get Directions</button>
+    </div>
+</body>
+</html>
