@@ -28,7 +28,26 @@ def upload_file():
         filename = secure_filename(file.filename)
         filepath = os.path.join(UPLOAD_FOLDER, filename)
         file.save(filepath)
-        # process_excel(filepath)
+        # Get the path to the Excel file
+        excel_path = filepath
+        directory = UPLOAD_FOLDER
+
+
+        # Load the Excel file
+        xls = pd.ExcelFile(excel_path, engine='openpyxl')
+
+        # Loop through each sheet in the Excel file
+        for sheet_name in xls.sheet_names:
+            df = xls.parse(sheet_name)
+            
+            # Convert the DataFrame to a JSON string
+            json_string = df.to_json(orient="records", date_format="iso")
+
+            # Save the JSON string to a file in the same directory, named after the sheet
+            json_path = os.path.join(directory, f"{sheet_name}.json")
+            with open(json_path, "w") as json_file:
+                json_file.write(json_string)
+
         return redirect(url_for('main.index'))
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)

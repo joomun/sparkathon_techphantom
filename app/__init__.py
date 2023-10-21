@@ -8,7 +8,6 @@ def create_app():
     
     # Registering the blueprint
     
-    
     config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'config.py'))
     app.config.from_pyfile(config_path)
     from .routes import main
