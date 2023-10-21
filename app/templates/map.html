@@ -29,7 +29,6 @@
         endAutocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
       }
       
-
       function calculateRoute() {
         var start = document.getElementById('start').value;
         var end = document.getElementById('end').value;
@@ -43,6 +42,10 @@
         directionsService.route(request, function(result, status) {
           if (status == 'OK') {
             directionsRenderer.setDirections(result);
+
+            // Extract the distance from the result and display it
+            var distance = result.routes[0].legs[0].distance.text;
+            document.getElementById('distance').textContent = "Distance: " + distance;
           }
         });
       }
@@ -63,6 +66,11 @@
         justify-content: center;
         margin-top: 10px;
       }
+      #distance {
+        text-align: center;
+        margin-top: 10px;
+        font-weight: bold;
+      }
     </style>
 </head>
 <body>
@@ -72,5 +80,6 @@
         <input id="end" type="text" placeholder="Enter Point B">
         <button onclick="calculateRoute()">Get Directions</button>
     </div>
+    <div id="distance"></div>
 </body>
 </html>
