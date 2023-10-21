@@ -2,3 +2,4 @@ flask
 pandas
 pymongo 
 dnspython
+openpyxl
